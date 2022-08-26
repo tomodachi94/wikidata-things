@@ -1,0 +1,248 @@
+[
+  {
+    "op": "core/column-rename",
+    "oldColumnName": "Column 1",
+    "newColumnName": "Version",
+    "description": "Rename column Column 1 to Version"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Version",
+    "expression": "grel:\"https://pypi.org/project/bob/\"+value",
+    "onError": "set-to-blank",
+    "newColumnName": "Reference URL",
+    "columnInsertIndex": 1,
+    "description": "Create column Reference URL at index 1 based on column Version using expression grel:\"https://pypi.org/project/bob/\"+value"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "Version",
+    "expression": "jython:import re\nif re.search(\"rc\", value):\n    return \"Q1072356\"\nelse:\n    return \"Q2804309\"",
+    "onError": "set-to-blank",
+    "newColumnName": "version type",
+    "columnInsertIndex": 1,
+    "description": "Create column version type at index 1 based on column Version using expression jython:import re\nif re.search(\"rc\", value):\n    return \"Q1072356\"\nelse:\n    return \"Q2804309\""
+  },
+  {
+    "op": "core/recon-use-values-as-identifiers",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "version type",
+    "service": "https://wikidata.reconci.link/en/api",
+    "identifierSpace": "http://www.wikidata.org/entity/",
+    "schemaSpace": "http://www.wikidata.org/prop/direct/",
+    "description": "Use values as reconciliation identifiers in column version type"
+  },
+  {
+    "op": "wikidata/save-wikibase-schema",
+    "schema": null,
+    "description": "Save Wikibase schema"
+  },
+  {
+    "op": "wikidata/save-wikibase-schema",
+    "schema": {
+      "entityEdits": [
+        {
+          "type": "wbitemeditexpr",
+          "subject": {
+            "type": "wbentityidvalueconstant",
+            "id": "Q113623776",
+            "label": "Bob"
+          },
+          "nameDescs": [],
+          "statementGroups": [
+            {
+              "property": {
+                "type": "wbpropconstant",
+                "pid": "P348",
+                "label": "software version identifier",
+                "datatype": "string"
+              },
+              "statements": [
+                {
+                  "value": {
+                    "type": "wbstringvariable",
+                    "columnName": "Version"
+                  },
+                  "qualifiers": [
+                    {
+                      "prop": {
+                        "type": "wbpropconstant",
+                        "pid": "P548",
+                        "label": "version type",
+                        "datatype": "wikibase-item"
+                      },
+                      "value": {
+                        "type": "wbentityvariable",
+                        "columnName": "version type"
+                      }
+                    }
+                  ],
+                  "references": [
+                    {
+                      "snaks": [
+                        {
+                          "prop": {
+                            "type": "wbpropconstant",
+                            "pid": "P854",
+                            "label": "reference URL",
+                            "datatype": "url"
+                          },
+                          "value": {
+                            "type": "wbstringvariable",
+                            "columnName": "Reference URL"
+                          }
+                        },
+                        {
+                          "prop": {
+                            "type": "wbpropconstant",
+                            "pid": "P813",
+                            "label": "retrieved",
+                            "datatype": "time"
+                          },
+                          "value": {
+                            "type": "wbdateconstant",
+                            "value": "2022-08-25"
+                          }
+                        }
+                      ]
+                    }
+                  ],
+                  "mergingStrategy": {
+                    "type": "snak",
+                    "valueMatcher": {
+                      "type": "lax"
+                    }
+                  },
+                  "mode": "add_or_merge"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "siteIri": "http://www.wikidata.org/entity/",
+      "entityTypeSiteIRI": {
+        "item": "http://www.wikidata.org/entity/",
+        "property": "http://www.wikidata.org/entity/"
+      },
+      "mediaWikiApiEndpoint": "https://www.wikidata.org/w/api.php"
+    },
+    "description": "Save Wikibase schema"
+  },
+  {
+    "op": "wikidata/save-wikibase-schema",
+    "schema": {
+      "entityEdits": [
+        {
+          "type": "wbitemeditexpr",
+          "subject": {
+            "type": "wbentityidvalueconstant",
+            "id": "Q113623776",
+            "label": "Bob"
+          },
+          "nameDescs": [],
+          "statementGroups": [
+            {
+              "property": {
+                "type": "wbpropconstant",
+                "pid": "P348",
+                "label": "software version identifier",
+                "datatype": "string"
+              },
+              "statements": [
+                {
+                  "value": {
+                    "type": "wbstringvariable",
+                    "columnName": "Version"
+                  },
+                  "qualifiers": [
+                    {
+                      "prop": {
+                        "type": "wbpropconstant",
+                        "pid": "P548",
+                        "label": "version type",
+                        "datatype": "wikibase-item"
+                      },
+                      "value": {
+                        "type": "wbentityvariable",
+                        "columnName": "version type"
+                      }
+                    }
+                  ],
+                  "references": [
+                    {
+                      "snaks": [
+                        {
+                          "prop": {
+                            "type": "wbpropconstant",
+                            "pid": "P854",
+                            "label": "reference URL",
+                            "datatype": "url"
+                          },
+                          "value": {
+                            "type": "wbstringvariable",
+                            "columnName": "Reference URL"
+                          }
+                        },
+                        {
+                          "prop": {
+                            "type": "wbpropconstant",
+                            "pid": "P813",
+                            "label": "retrieved",
+                            "datatype": "time"
+                          },
+                          "value": {
+                            "type": "wbdateconstant",
+                            "value": "2022-08-25"
+                          }
+                        }
+                      ]
+                    }
+                  ],
+                  "mergingStrategy": {
+                    "type": "snak",
+                    "valueMatcher": {
+                      "type": "lax"
+                    }
+                  },
+                  "mode": "add_or_merge"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "siteIri": "http://www.wikidata.org/entity/",
+      "entityTypeSiteIRI": {
+        "item": "http://www.wikidata.org/entity/",
+        "property": "http://www.wikidata.org/entity/"
+      },
+      "mediaWikiApiEndpoint": "https://www.wikidata.org/w/api.php"
+    },
+    "description": "Save Wikibase schema"
+  },
+  {
+    "op": "wikidata/perform-wikibase-edits",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "summary": "Add version history",
+    "maxlag": 5,
+    "editGroupsUrlSchema": "([[:toollabs:editgroups/b/OR/${batch_id}|details]])",
+    "maxEditsPerMinute": 60,
+    "tag": "openrefine-${version}",
+    "description": "Perform Wikibase edits"
+  }
+]
