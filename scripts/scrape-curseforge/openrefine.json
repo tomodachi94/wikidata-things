@@ -1,0 +1,190 @@
+[
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "title",
+    "expression": "jython:return value",
+    "onError": "set-to-blank",
+    "newColumnName": "name",
+    "columnInsertIndex": 1,
+    "description": "Create column name at index 1 based on column title using expression jython:return value"
+  },
+  {
+    "op": "core/column-rename",
+    "oldColumnName": "name",
+    "newColumnName": "page_title",
+    "description": "Rename column name to page_title"
+  },
+  {
+    "op": "core/column-rename",
+    "oldColumnName": "title",
+    "newColumnName": "mod_name",
+    "description": "Rename column title to mod_name"
+  },
+  {
+    "op": "core/text-transform",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "page_title",
+    "expression": "value.replace(\" \",\"_\")",
+    "onError": "keep-original",
+    "repeat": false,
+    "repeatCount": 10,
+    "description": "Text transform on cells in column page_title using expression value.replace(\" \",\"_\")"
+  },
+  {
+    "op": "core/column-addition",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "baseColumnName": "page_title",
+    "expression": "jython:return \"ftb:\"+value",
+    "onError": "set-to-blank",
+    "newColumnName": "page_name_for_real",
+    "columnInsertIndex": 2,
+    "description": "Create column page_name_for_real at index 2 based on column page_title using expression jython:return \"ftb:\"+value"
+  },
+  {
+    "op": "core/column-removal",
+    "columnName": "page_title",
+    "description": "Remove column page_title"
+  },
+  {
+    "op": "core/recon",
+    "engineConfig": {
+      "facets": [],
+      "mode": "row-based"
+    },
+    "columnName": "mod_name",
+    "config": {
+      "mode": "standard-service",
+      "service": "https://wikidata.reconci.link/en/api",
+      "identifierSpace": "http://www.wikidata.org/entity/",
+      "schemaSpace": "http://www.wikidata.org/prop/direct/",
+      "type": {
+        "id": "Q111369260",
+        "name": "Minecraft mod"
+      },
+      "autoMatch": true,
+      "columnDetails": [
+        {
+          "column": "page_name_for_real",
+          "propertyName": "Fandom article ID",
+          "propertyID": "P6262"
+        }
+      ],
+      "limit": 0
+    },
+    "description": "Reconcile cells in column mod_name to type Q111369260"
+  },
+  {
+    "op": "wikidata/save-wikibase-schema",
+    "schema": {
+      "entityEdits": [
+        {
+          "type": "wbitemeditexpr",
+          "subject": {
+            "type": "wbentityvariable",
+            "columnName": "mod_name"
+          },
+          "nameDescs": [],
+          "statementGroups": [
+            {
+              "property": {
+                "type": "wbpropconstant",
+                "pid": "P11643",
+                "label": "CurseForge project ID",
+                "datatype": "external-id"
+              },
+              "statements": [
+                {
+                  "value": {
+                    "type": "wbstringvariable",
+                    "columnName": "curseforge_project_id"
+                  },
+                  "qualifiers": [],
+                  "references": [
+                    {
+                      "snaks": [
+                        {
+                          "prop": {
+                            "type": "wbpropconstant",
+                            "pid": "P248",
+                            "label": "stated in",
+                            "datatype": "wikibase-item"
+                          },
+                          "value": {
+                            "type": "wbentityidvalueconstant",
+                            "id": "Q17459",
+                            "label": "Fandom"
+                          }
+                        },
+                        {
+                          "prop": {
+                            "type": "wbpropconstant",
+                            "pid": "P248",
+                            "label": "stated in",
+                            "datatype": "wikibase-item"
+                          },
+                          "value": {
+                            "type": "wbentityidvalueconstant",
+                            "id": "Q105518219",
+                            "label": "Feed the Beast Wiki"
+                          }
+                        },
+                        {
+                          "prop": {
+                            "type": "wbpropconstant",
+                            "pid": "P813",
+                            "label": "retrieved",
+                            "datatype": "time"
+                          },
+                          "value": {
+                            "type": "wbdateconstant",
+                            "value": "2023-04-06"
+                          }
+                        },
+                        {
+                          "prop": {
+                            "type": "wbpropconstant",
+                            "pid": "P6262",
+                            "label": "Fandom article ID",
+                            "datatype": "external-id"
+                          },
+                          "value": {
+                            "type": "wbstringvariable",
+                            "columnName": "page_name_for_real"
+                          }
+                        }
+                      ]
+                    }
+                  ],
+                  "mergingStrategy": {
+                    "type": "snak",
+                    "valueMatcher": {
+                      "type": "lax"
+                    }
+                  },
+                  "mode": "add_or_merge"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "siteIri": "http://www.wikidata.org/entity/",
+      "entityTypeSiteIRI": {
+        "item": "http://www.wikidata.org/entity/",
+        "property": "http://www.wikidata.org/entity/"
+      },
+      "mediaWikiApiEndpoint": "https://www.wikidata.org/w/api.php"
+    },
+    "description": "Save Wikibase schema"
+  }
+]

@@ -1,0 +1,3 @@
+bs4
+lxml # We need to specify this for bs4's XML parsing to work on some systems
+selenium

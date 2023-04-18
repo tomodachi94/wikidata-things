@@ -1,0 +1,5 @@
+__pycache__/
+
+# Data files
+*.sqlite3
+*.xml
