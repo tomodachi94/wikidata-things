@@ -15,7 +15,7 @@ def parse_curseforge_urls(xml_file):
 
         # Extract URLs using regex
         import re
-        urls = re.findall(r"\bhttps?://(?:www\.)?curseforge\.com\/minecraft\S+\b", content)
+        urls = re.findall(r"\b(https|http)?://(?:(www|minecraft)\.)?curseforge\.com\/minecraft\S+\b", content)
 
         for url in urls:
             results.append({"title": title, "curseforge_url": url})
